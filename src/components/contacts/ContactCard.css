@@ -1,0 +1,14 @@
+.ContactCard__photo {
+    border-radius: 100%;
+    width: 100px;
+  }
+  
+  .ContactCard__left {
+    border-right: 2px solid #ccc;
+    padding-right: 10px;
+  }
+  
+  .ContactCard__right {
+    padding-left: 10px;
+    flex: 1;
+  }

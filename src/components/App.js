@@ -5,6 +5,10 @@ import ContactsPage from "./contacts";
 import ContactDetailsPage from "./contact-details";
 import ContactCreatePage from "./contact-create";
 import { getContacts } from "../utils/contacts";
+import { useState, useEffect } from "react";
+
+// import Context 
+import contactsContext from "../context/contactsContext";
 
 const mockContacts = [
   {
@@ -45,36 +49,39 @@ const mockContacts = [
   }
 ];
 
+////////////////////////// app component //////////////////////////
 
-class App extends React.Component {
+function App(props) {
 
-  constructor(props) {
-    super(props);
+  const [contacts, setContacts] = useState([]);
+  const [theme, setTheme] = useState("light");
 
-    this.state = {
-      contacts: []
-    }
-  }
-
-  componentDidMount() {
+  useEffect(() => {
     const storedContacts = getContacts();
 
-    this.setState({
-      contacts: storedContacts.length ? storedContacts : mockContacts
-    })
-  }
+    setContacts(storedContacts.length ? storedContacts : mockContacts);
+  }, []);
 
-  render() {
+    
+
     return (
-      <div>
-        <LoginPage />
-        <RegisterPage />
-        <ContactsPage contacts={this.state.contacts} />
-        <ContactDetailsPage contact={this.state.contacts[0]} />
-        <ContactCreatePage />
-      </div>
+      //  Context Provider with the contacts value 
+      <contactsContext.Provider value = {{
+        contacts: contacts, 
+        theme,
+        toggleTheme: ()=> { setTheme (theme === 'light'?'dark': 'light'); }
+        }} >
+        <div>
+          {/* <LoginPage />
+          <RegisterPage /> */}
+          <ContactsPage/>
+          {/* <ContactDetailsPage contact={this.state.contacts[0]} />
+          <ContactCreatePage /> */}
+        </div>        
+      </contactsContext.Provider>
+
     );
   }
-}
+
 
 export default App;
